@@ -1,6 +1,6 @@
 package io.github.mertout.listeners;
 
-import de.tr7zw.changeme.nbtapi.NBTItem;
+import de.tr7zw.changeme.nbtapi.NBT;
 import io.github.mertout.Claim;
 import io.github.mertout.filemanager.files.MenusFile;
 import io.github.mertout.gui.GuiType;
@@ -30,17 +30,22 @@ public class ClickEvent extends ClaimManager implements Listener
             if (p.getOpenInventory().getTitle().contains(HexColor.hex(MenusFile.get(GuiType.MEMBERS).getString("gui.title").replace("{page}", "")))) {
             e.setCancelled(true);
             if (e.getCurrentItem() != null && e.getCurrentItem().getType() != Material.AIR) {
-                if (new NBTItem(e.getCurrentItem()).getString("page").equals("next")) {
+                final String[] page = new String[1];
+                final String[] owner = new String[1];
+                NBT.get(e.getCurrentItem(), nbt -> {
+                    page[0] = nbt.getString("page");
+                    owner[0] = nbt.getString("owner");
+                });
+                if (page[0].equals("next")) {
                     Claim.getInstance().getMemberManager().openMemberPage(p, (Claim.getInstance().getMemberManager().findPage(e.getInventory()) + 1), Claim.getInstance().getMemberManager().calculateSkull(e.getInventory()));
                 }
-                else if (new NBTItem(e.getCurrentItem()).getString("page").equals("previous")) {
+                else if (page[0].equals("previous")) {
                     if (Claim.getInstance().getMemberManager().findPage(e.getInventory()) > 1) {
                         Claim.getInstance().getMemberManager().openMemberPage(p, (Claim.getInstance().getMemberManager().findPage(e.getInventory()) - 1), 0);
                     }
                 }
-                else if (new NBTItem(e.getCurrentItem()).hasKey("owner")) {
-                    NBTItem nbti = new NBTItem(e.getCurrentItem());
-                    ClaimUtils.memberKick(p, nbti.getString("owner"), Claim.getInstance().getClaimManager().getChunkClaim(p.getLocation()));
+                else if (owner[0] != null) {
+                    ClaimUtils.memberKick(p, owner[0], Claim.getInstance().getClaimManager().getChunkClaim(p.getLocation()));
                 }
             }
         }

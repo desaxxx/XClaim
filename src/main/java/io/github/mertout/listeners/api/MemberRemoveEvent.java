@@ -16,8 +16,8 @@ public class MemberRemoveEvent implements Listener {
         }
         Player p = e.getPlayer();
         String sound = Claim.getInstance().getConfig().getString("settings.sounds.MEMBER-REMOVE.type").toUpperCase();
-        Float volume = (float) Claim.getInstance().getConfig().getDouble("settings.sounds.MEMBER-REMOVE.volume");
-        Float pitch = (float) Claim.getInstance().getConfig().getDouble("settings.sounds.MEMBER-REMOVE.pitch");
+        float volume = (float) Claim.getInstance().getConfig().getDouble("settings.sounds.MEMBER-REMOVE.volume");
+        float pitch = (float) Claim.getInstance().getConfig().getDouble("settings.sounds.MEMBER-REMOVE.pitch");
         p.playSound(p.getLocation(), Sound.valueOf(sound), volume, pitch);
     }
 }

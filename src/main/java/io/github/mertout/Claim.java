@@ -14,10 +14,10 @@ import io.github.mertout.holograms.cache.QueueHolograms;
 import io.github.mertout.hooks.Vault;
 import io.github.mertout.listeners.*;
 import io.github.mertout.listeners.api.*;
-import io.github.mertout.hooks.Metrics;
 import io.github.mertout.utils.UpdateChecker;
 import io.github.mertout.commands.tabcomplete.TabComplete;
 import io.github.mertout.hooks.Placeholders;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import io.github.mertout.holograms.timer.HologramTimer;
 import io.github.mertout.holograms.HologramCore;
@@ -30,6 +30,7 @@ import java.util.HashMap;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
+@SuppressWarnings("unused")
 public class Claim extends JavaPlugin
 {
     public static Claim instance;
@@ -72,9 +73,7 @@ public class Claim extends JavaPlugin
         this.checkUpdate();
 
         //Bstats
-        Metrics metrics = new Metrics(this, 13800);
-        metrics.addCustomChart(new Metrics.SingleLineChart("players", () -> Bukkit.getOnlinePlayers().size()));
-        metrics.addCustomChart(new Metrics.SingleLineChart("servers", () -> 1));
+        new Metrics(this, 13800);
 
         //Console Message
         getLogger().info("XClaim Activated! V1.5.2");
@@ -137,19 +136,15 @@ public class Claim extends JavaPlugin
 
         // Spigot sürüm kontrolü
         String[] spigotParts = spigotVersion.split("\\.");
-        int major = Integer.parseInt(spigotParts[0]);
         int minor = Integer.parseInt(spigotParts[1]);
         int patch = Integer.parseInt(spigotParts[2]);
 
-        if (major > 1 || (major == 1 && minor > 16) || (major == 1 && minor == 16 && patch >= 5)) {
-            return true;
-        } else {
-            return false;
-        }
+        return minor > 16 || (minor == 16 && patch >= 5);
     }
     
     private void loadFiles() {
         this.saveDefaultConfig();
+        //noinspection InstantiationOfUtilityClass
         new FileManager();
     }
     

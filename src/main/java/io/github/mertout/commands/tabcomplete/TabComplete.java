@@ -13,6 +13,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 
 public class TabComplete implements TabCompleter {
+    @SuppressWarnings({"unchecked", "rawtypes"})
     @Nullable
     public List<String> onTabComplete(@NotNull final CommandSender cs, @NotNull final Command cmd, @NotNull final String s, @NotNull final String[] strings) {
         if (strings.length == 1) {

@@ -11,9 +11,9 @@ import java.util.List;
 
 public class QueueHolograms {
 
-    private List<DataHandler> waitingHologramCreating = new ArrayList<>();
+    private final List<DataHandler> waitingHologramCreating = new ArrayList<>();
 
-    private int task;
+    private final int task;
 
     public QueueHolograms() {
         task = Bukkit.getScheduler().runTaskTimer(Claim.getInstance(), this::checkHologramCreation, 40L, 8 * 20L).getTaskId();

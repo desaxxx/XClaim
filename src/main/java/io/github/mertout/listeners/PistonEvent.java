@@ -12,10 +12,11 @@ public class PistonEvent extends ClaimManager implements Listener
 {
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onPistonExtendEvent(final BlockPistonExtendEvent e) {
-        final Block targetBlock = e.getBlock().getRelative(e.getDirection(), e.getLength() + 1);
+        final Block targetBlock = e.getBlock().getRelative(e.getDirection(), e.getBlocks().size() + 1);
         if (super.getChunkClaim(targetBlock.getLocation()) != null && super.getChunkClaim(targetBlock.getLocation()) != super.getChunkClaim(e.getBlock().getLocation())) { e.setCancelled(true); }
     }
 
+    @SuppressWarnings("deprecation")
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onPistonRetractEvent(final BlockPistonRetractEvent e) {
         for (Block b : e.getBlocks()) {

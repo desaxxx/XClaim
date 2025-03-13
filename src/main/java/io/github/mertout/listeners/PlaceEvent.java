@@ -1,6 +1,6 @@
 package io.github.mertout.listeners;
 
-import de.tr7zw.changeme.nbtapi.NBTItem;
+import de.tr7zw.changeme.nbtapi.NBT;
 import org.bukkit.event.EventHandler;
 import org.bukkit.Bukkit;
 import io.github.mertout.api.events.ClaimCreateEvent;
@@ -22,8 +22,11 @@ public class PlaceEvent extends ClaimManager implements Listener
             e.setCancelled(true);
             return;
         }
-        NBTItem nbti = new NBTItem(e.getItemInHand());
-        if (nbti.getBoolean("claimblock")) {
+        final boolean[] claimblock = new boolean[1];
+        NBT.get(e.getItemInHand(), nbt -> {
+            claimblock[0] = nbt.getBoolean("claimblock");
+        });
+        if (claimblock[0]) {
             if (super.getChunkClaim(e.getPlayer().getLocation()) != null) {
                 e.setCancelled(true);
                 return;

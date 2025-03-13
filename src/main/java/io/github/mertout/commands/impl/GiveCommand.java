@@ -1,6 +1,6 @@
 package io.github.mertout.commands.impl;
 
-import de.tr7zw.changeme.nbtapi.NBTItem;
+import de.tr7zw.changeme.nbtapi.NBT;
 import io.github.mertout.Claim;
 import io.github.mertout.commands.SubCommand;
 import io.github.mertout.filemanager.files.MessagesFile;
@@ -46,6 +46,7 @@ public class GiveCommand extends SubCommand {
         return 2;
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void perform(CommandSender cs, String[] strings) {
         if (Bukkit.getPlayer(strings[1]) == null) {
@@ -56,15 +57,15 @@ public class GiveCommand extends SubCommand {
         ItemStack is = new ItemStack(Material.matchMaterial(Claim.getInstance().getConfig().getString("settings.claim-block.material")));
         final ItemMeta im = is.getItemMeta();
         im.setDisplayName(HexColor.hex(Claim.getInstance().getConfig().getString("settings.claim-block.display-name")));
-        final ArrayList<String> lore = new ArrayList<String>();
+        final ArrayList<String> lore = new ArrayList<>();
         for (final String str : Claim.getInstance().getConfig().getStringList("settings.claim-block.lore")) {
             lore.add(HexColor.hex(str).replaceAll("&", "§"));
         }
         im.setLore(lore);
         is.setItemMeta(im);
-        NBTItem nbti = new NBTItem(is);
-        nbti.setBoolean("claimblock", true);
-        is = nbti.getItem();
+        NBT.modify(is, nbt -> {
+            nbt.setBoolean("claimblock", true);
+        });
         target.getInventory().addItem(is);
     }
 }

@@ -32,28 +32,32 @@ public class Placeholders extends PlaceholderExpansion
     public String onPlaceholderRequest(@NotNull final Player p, @NotNull final String identifier) {
         ClaimManager claimManager = Claim.getInstance().getClaimManager();
         DataHandler chunk = claimManager.getChunkClaim(p.getLocation());
-        switch (identifier) {
-            case "owner":
+        return switch (identifier) {
+            case "owner" -> {
                 if (chunk != null) {
-                    return chunk.getOwner().toString();
+                    yield chunk.getOwner();
                 }
-                return "";
-            case "team_size":
+                yield "";
+            }
+            case "team_size" -> {
                 if (chunk != null) {
-                    return chunk.getMembers().size() + "";
+                    yield chunk.getMembers().size() + "";
                 }
-                return "";
-            case "remaining_time":
+                yield "";
+            }
+            case "remaining_time" -> {
                 if (chunk != null) {
-                    return ClaimManager.calcTime(chunk);
+                    yield ClaimManager.calcTime(chunk);
                 }
-                return "";
-            case "status":
+                yield "";
+            }
+            case "status" -> {
                 if (chunk != null) {
-                    return MessagesFile.convertString("messages.ownership.taken");
+                    yield MessagesFile.convertString("messages.ownership.taken");
                 }
-                return MessagesFile.convertString("messages.ownership.untaken");
-        }
-        return null;
+                yield MessagesFile.convertString("messages.ownership.untaken");
+            }
+            default -> null;
+        };
     }
 }

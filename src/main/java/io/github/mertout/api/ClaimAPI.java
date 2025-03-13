@@ -9,6 +9,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
+@SuppressWarnings("unused")
 public class ClaimAPI {
 
     public static boolean isHasClaim(@NotNull Player p) {

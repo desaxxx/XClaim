@@ -26,6 +26,7 @@ public class FileManager {
         Claim.getInstance().saveResource(resourcePath, true);
         if (!destination.equals(resourcePath)) {
             File dest = new File(Claim.getInstance().getDataFolder(), destination);
+            //noinspection ResultOfMethodCallIgnored
             file.renameTo(dest);
         }
     }

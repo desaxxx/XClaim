@@ -16,8 +16,8 @@ public class BlockMoveEvent implements Listener {
         }
         Player p = e.getPlayer();
         String sound = Claim.getInstance().getConfig().getString("settings.sounds.MOVE-BLOCK.type").toUpperCase();
-        Float volume = (float) Claim.getInstance().getConfig().getDouble("settings.sounds.MOVE-BLOCK.volume");
-        Float pitch = (float) Claim.getInstance().getConfig().getDouble("settings.sounds.MOVE-BLOCK.pitch");
+        float volume = (float) Claim.getInstance().getConfig().getDouble("settings.sounds.MOVE-BLOCK.volume");
+        float pitch = (float) Claim.getInstance().getConfig().getDouble("settings.sounds.MOVE-BLOCK.pitch");
         p.playSound(p.getLocation(), Sound.valueOf(sound), volume, pitch);
     }
 }

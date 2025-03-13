@@ -16,8 +16,8 @@ public class DeleteEvent implements Listener {
         }
         Player p = e.getPlayer();
         String sound = Claim.getInstance().getConfig().getString("settings.sounds.CLAIM-DELETE.type").toUpperCase();
-        Float volume = (float) Claim.getInstance().getConfig().getDouble("settings.sounds.CLAIM-DELETE.volume");
-        Float pitch = (float) Claim.getInstance().getConfig().getDouble("settings.sounds.CLAIM-DELETE.pitch");
+        float volume = (float) Claim.getInstance().getConfig().getDouble("settings.sounds.CLAIM-DELETE.volume");
+        float pitch = (float) Claim.getInstance().getConfig().getDouble("settings.sounds.CLAIM-DELETE.pitch");
         p.playSound(p.getLocation(), Sound.valueOf(sound), volume, pitch);
     }
 }

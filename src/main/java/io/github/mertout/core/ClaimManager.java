@@ -28,21 +28,7 @@ public class ClaimManager
         ConfigurationSection sect = ClaimsFile.getClaimsFile().getConfigurationSection("claims");
         if (sect != null) {
             int total = sect.getKeys(false).size();
-            AtomicInteger loaded = new AtomicInteger(0);
-
-            BukkitRunnable task = new BukkitRunnable() {
-                public void run() {
-                    int currentLoaded = loaded.incrementAndGet();
-                    double calc = (currentLoaded / (double) total) * 100;
-                    int val = (int) Math.round(calc);
-                    Claim.getInstance().getLogger().info("Loading Claims! " + val + "%");
-
-                    if (currentLoaded >= total) {
-                        cancel();
-                        Claim.getInstance().getLogger().info("Loaded Claims!");
-                    }
-                }
-            };
+            final BukkitRunnable task = getBukkitRunnable(total);
             //for new claims
             if (hasBlockLocation()) {
                 for (String world : sect.getKeys(false)) {
@@ -59,6 +45,24 @@ public class ClaimManager
             }
             task.runTaskTimerAsynchronously(Claim.getInstance(), 1, 1);
         }
+    }
+
+    private static @NotNull BukkitRunnable getBukkitRunnable(int total) {
+        AtomicInteger loaded = new AtomicInteger(0);
+
+        return new BukkitRunnable() {
+            public void run() {
+                int currentLoaded = loaded.incrementAndGet();
+                double calc = (currentLoaded / (double) total) * 100;
+                int val = (int) Math.round(calc);
+                Claim.getInstance().getLogger().info("Loading Claims! " + val + "%");
+
+                if (currentLoaded >= total) {
+                    cancel();
+                    Claim.getInstance().getLogger().info("Loaded Claims!");
+                }
+            }
+        };
     }
 
     public boolean hasBlockLocation() {
@@ -161,17 +165,17 @@ public class ClaimManager
         ClaimsFile.saveClaimsFile();
         long start = System.currentTimeMillis();
         for (DataHandler data : Claim.getInstance().getClaims()) {
-            ClaimsFile.getClaimsFile().set("claims." + data.getBlockLocation().getWorld().getName() + "." + data.getChunk().toString() + ".block-location", data.getBlockLocation());
-            ClaimsFile.getClaimsFile().set("claims." + data.getBlockLocation().getWorld().getName() + "." + data.getChunk().toString() + ".owner", data.getOwner());
-            ClaimsFile.getClaimsFile().set("claims." + data.getBlockLocation().getWorld().getName() + "." + data.getChunk().toString() + ".day", data.getDays());
-            ClaimsFile.getClaimsFile().set("claims." + data.getBlockLocation().getWorld().getName() + "." + data.getChunk().toString() + ".hour", data.getHours());
-            ClaimsFile.getClaimsFile().set("claims." + data.getBlockLocation().getWorld().getName() + "." + data.getChunk().toString() + ".minutes", data.getMinutes());
-            ClaimsFile.getClaimsFile().set("claims." + data.getBlockLocation().getWorld().getName() + "." + data.getChunk().toString() + ".seconds", data.getSeconds());
-            ClaimsFile.getClaimsFile().set("claims." + data.getBlockLocation().getWorld().getName() + "." + data.getChunk().toString() + ".creation-date", data.getCreationDate());
+            ClaimsFile.getClaimsFile().set("claims." + data.getBlockLocation().getWorld().getName() + "." + data.getChunk() + ".block-location", data.getBlockLocation());
+            ClaimsFile.getClaimsFile().set("claims." + data.getBlockLocation().getWorld().getName() + "." + data.getChunk() + ".owner", data.getOwner());
+            ClaimsFile.getClaimsFile().set("claims." + data.getBlockLocation().getWorld().getName() + "." + data.getChunk() + ".day", data.getDays());
+            ClaimsFile.getClaimsFile().set("claims." + data.getBlockLocation().getWorld().getName() + "." + data.getChunk() + ".hour", data.getHours());
+            ClaimsFile.getClaimsFile().set("claims." + data.getBlockLocation().getWorld().getName() + "." + data.getChunk() + ".minutes", data.getMinutes());
+            ClaimsFile.getClaimsFile().set("claims." + data.getBlockLocation().getWorld().getName() + "." + data.getChunk() + ".seconds", data.getSeconds());
+            ClaimsFile.getClaimsFile().set("claims." + data.getBlockLocation().getWorld().getName() + "." + data.getChunk() + ".creation-date", data.getCreationDate());
             if (data.getMembers() != null) {
-                List<String> list = ClaimsFile.getClaimsFile().getStringList("claims." + data.getBlockLocation().getWorld().getName() + "." + data.getChunk().toString() + ".members");
-                data.getMembers().forEach(mem -> list.add(mem));
-                ClaimsFile.getClaimsFile().set("claims." + data.getBlockLocation().getWorld().getName() + "." + data.getChunk().toString() + ".members", list);
+                List<String> list = ClaimsFile.getClaimsFile().getStringList("claims." + data.getBlockLocation().getWorld().getName() + "." + data.getChunk() + ".members");
+                list.addAll(data.getMembers());
+                ClaimsFile.getClaimsFile().set("claims." + data.getBlockLocation().getWorld().getName() + "." + data.getChunk() + ".members", list);
             }
             ClaimsFile.saveClaimsFile();
         }

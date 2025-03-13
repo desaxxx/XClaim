@@ -7,6 +7,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
+import java.util.Objects;
 
 public class MenusFile {
     public static FileConfiguration fc;
@@ -26,7 +27,8 @@ public class MenusFile {
 
     public static FileConfiguration get(GuiType guiType) {
         FileConfiguration result = null;
-        for (File file : new File(Claim.getInstance().getDataFolder(), "menus").listFiles()) {
+        File folder = new File(Claim.getInstance().getDataFolder(), "menus");
+        for (File file : Objects.requireNonNull(folder.listFiles())) {
             if (guiType == GuiType.CLAIMMANAGEMENT && file.getName().equals("claim-management.yml")) {
                 fc = YamlConfiguration.loadConfiguration(file);
                 result = fc;
@@ -39,7 +41,8 @@ public class MenusFile {
         return result;
     }
     public static void reloadMenusFiles() {
-        for (File file : new File(Claim.getInstance().getDataFolder(), "menus").listFiles()) {
+        File folder = new File(Claim.getInstance().getDataFolder(), "menus");
+        for (File file : Objects.requireNonNull(folder.listFiles())) {
             fc = YamlConfiguration.loadConfiguration(file);
         }
     }

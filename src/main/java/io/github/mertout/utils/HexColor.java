@@ -13,9 +13,9 @@ public class HexColor
             final String hexCode = message.substring(matcher.start(), matcher.end());
             final String replaceSharp = hexCode.replace('#', 'x');
             final char[] ch = replaceSharp.toCharArray();
-            final StringBuilder builder = new StringBuilder("");
+            final StringBuilder builder = new StringBuilder();
             for (final char c : ch) {
-                builder.append("&" + c);
+                builder.append("&").append(c);
             }
             message = message.replace(hexCode, builder.toString());
         }

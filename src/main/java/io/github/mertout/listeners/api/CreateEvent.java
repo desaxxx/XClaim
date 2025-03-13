@@ -22,8 +22,7 @@ public class CreateEvent implements Listener {
         if (Claim.getInstance().getCreateTimer().getTask().containsKey(p) && !p.hasPermission("xclaim.bypass.cooldown")) {
             int hour = 0;
             int minute = 0;
-            int second;
-            for (second = Claim.getInstance().getCreateTimer().getTask().get(p); second > 3600; second -= 3600, ++hour) {}
+            int second = Claim.getInstance().getCreateTimer().getTask().get(p);
             while (second > 60) {
                 second -= 60;
                 ++minute;
@@ -39,8 +38,8 @@ public class CreateEvent implements Listener {
             return;
         }
         String sound = Claim.getInstance().getConfig().getString("settings.sounds.CLAIM-CREATE.type").toUpperCase();
-        Float volume = (float) Claim.getInstance().getConfig().getDouble("settings.sounds.CLAIM-CREATE.volume");
-        Float pitch = (float) Claim.getInstance().getConfig().getDouble("settings.sounds.CLAIM-CREATE.pitch");
+        float volume = (float) Claim.getInstance().getConfig().getDouble("settings.sounds.CLAIM-CREATE.volume");
+        float pitch = (float) Claim.getInstance().getConfig().getDouble("settings.sounds.CLAIM-CREATE.pitch");
         p.playSound(p.getLocation(), Sound.valueOf(sound), volume, pitch);
     }
 }

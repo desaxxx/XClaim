@@ -13,6 +13,7 @@ import io.github.mertout.core.ClaimManager;
 
 public class ChatEvent extends ClaimManager implements Listener
 {
+    @SuppressWarnings("deprecation")
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onChat(final AsyncPlayerChatEvent e) {
         Player player = e.getPlayer();

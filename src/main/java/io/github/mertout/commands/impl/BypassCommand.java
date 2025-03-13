@@ -40,11 +40,10 @@ public class BypassCommand extends SubCommand {
 
     @Override
     public void perform(CommandSender cs, String[] strings) {
-        if (!(cs instanceof Player)) {
+        if (!(cs instanceof Player p)) {
             cs.sendMessage(MessagesFile.convertString("messages.only-player"));
             return;
         }
-        Player p = (Player) cs;
         if (Claim.getInstance().getAdminBypassList().contains(p)) {
             p.sendMessage(MessagesFile.convertString("messages.admin.player-bypass-mode-off"));
             Claim.getInstance().getAdminBypassList().remove(p);

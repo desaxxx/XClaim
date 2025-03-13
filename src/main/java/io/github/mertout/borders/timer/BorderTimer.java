@@ -12,7 +12,7 @@ import java.util.Map;
 
 public class BorderTimer implements Runnable {
 
-    private static Map<Player, Integer> task = new HashMap<>();
+    private static final Map<Player, Integer> task = new HashMap<>();
     private final int sec;
 
     public BorderTimer() {

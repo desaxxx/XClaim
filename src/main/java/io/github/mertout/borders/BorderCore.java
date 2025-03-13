@@ -1,9 +1,7 @@
 package io.github.mertout.borders;
 
 import io.github.mertout.Claim;
-import io.github.mertout.core.data.DataHandler;
 import io.github.mertout.filemanager.files.MessagesFile;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -13,10 +11,7 @@ public class BorderCore {
 
     public HashMap<Player, Boolean> caches = new HashMap<>();
 
-    public void toggleBorder(@NotNull Player p, @NotNull DataHandler data) {
-        if (data == null) {
-            return;
-        }
+    public void toggleBorder(@NotNull Player p) {
         int sec = Claim.getInstance().getConfig().getInt("settings.look-chunk-seconds");
         if (!caches.containsKey(p)) {
             Claim.getInstance().getBorderTimer().addTimer(p);

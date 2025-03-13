@@ -1,7 +1,6 @@
 package io.github.mertout.holograms.timer;
 
 import io.github.mertout.holograms.HologramCore;
-import org.bukkit.plugin.Plugin;
 import io.github.mertout.Claim;
 import org.bukkit.Bukkit;
 

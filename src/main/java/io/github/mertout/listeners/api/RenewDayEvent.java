@@ -16,8 +16,8 @@ public class RenewDayEvent implements Listener {
         }
         Player p = e.getPlayer();
         String sound = Claim.getInstance().getConfig().getString("settings.sounds.RENEW-DAY.type").toUpperCase();
-        Float volume = (float) Claim.getInstance().getConfig().getDouble("settings.sounds.RENEW-DAY.volume");
-        Float pitch = (float) Claim.getInstance().getConfig().getDouble("settings.sounds.RENEW-DAY.pitch");
+        float volume = (float) Claim.getInstance().getConfig().getDouble("settings.sounds.RENEW-DAY.volume");
+        float pitch = (float) Claim.getInstance().getConfig().getDouble("settings.sounds.RENEW-DAY.pitch");
         p.playSound(p.getLocation(), Sound.valueOf(sound), volume, pitch);
     }
 }

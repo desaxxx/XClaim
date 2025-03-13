@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 public class CommandManager implements CommandExecutor {
 
-    private ArrayList<SubCommand> subcommands = new ArrayList<>();
+    private final ArrayList<SubCommand> subcommands = new ArrayList<>();
 
     public CommandManager(){
         subcommands.add(new ReloadCommand());
@@ -26,7 +26,7 @@ public class CommandManager implements CommandExecutor {
 
         if (args.length > 0){
             for (int i = 0; i < getSubcommands().size(); i++){
-                if (args[0].equalsIgnoreCase(getSubcommands().get(i).getName()) && (getSubcommands().get(i).getSubName().equals("") || (args.length > 1 && getSubcommands().get(i).getSubName().equals(args[1])))) {
+                if (args[0].equalsIgnoreCase(getSubcommands().get(i).getName()) && (getSubcommands().get(i).getSubName().isEmpty() || (args.length > 1 && getSubcommands().get(i).getSubName().equals(args[1])))) {
                     if (cs instanceof Player p && !p.hasPermission(getSubcommands().get(i).getPermission())) {
                         p.sendMessage(MessagesFile.convertString("messages.doesnt-permission"));
                         return false;

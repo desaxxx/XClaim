@@ -2,7 +2,6 @@ package io.github.mertout.holograms.file;
 
 import io.github.mertout.Claim;
 import io.github.mertout.filemanager.FileManager;
-import io.github.mertout.gui.GuiType;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 

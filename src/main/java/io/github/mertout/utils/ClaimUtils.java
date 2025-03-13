@@ -6,7 +6,6 @@ import io.github.mertout.api.events.ClaimDayRenewEvent;
 import io.github.mertout.core.data.DataHandler;
 import io.github.mertout.core.timer.MoveTimer;
 import io.github.mertout.filemanager.files.MessagesFile;
-import io.github.mertout.hooks.Vault;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -16,6 +15,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class ClaimUtils {
 
+    @SuppressWarnings("deprecation")
     public static String checkStatus(String params) {
         if (Bukkit.getPlayer(params) != null) {
             return HexColor.hex(MessagesFile.convertString("messages.status.online"));
@@ -23,7 +23,7 @@ public class ClaimUtils {
         return HexColor.hex(MessagesFile.convertString("messages.status.offline"));
     }
     public static void memberKick(@NotNull Player p, @NotNull String owner, @NotNull DataHandler data) {
-        if (data == null || !data.getOwner().equals(p.getName())) {
+        if (!data.getOwner().equals(p.getName())) {
             return;
         }
         if (data.getMembers().contains(owner)) {
@@ -34,7 +34,7 @@ public class ClaimUtils {
     }
 
     public static void renewDay(@NotNull Player p, @NotNull DataHandler data) {
-        if (data == null || !data.getOwner().equals(p.getName())) {
+        if (!data.getOwner().equals(p.getName())) {
             return;
         }
         Economy eco = Claim.getInstance().getVault().getEconomy();
@@ -51,7 +51,7 @@ public class ClaimUtils {
         }
     }
     public static void moveClaimBlock(@NotNull final Player p, @NotNull DataHandler data) {
-        if (data == null || !data.getOwner().equals(p.getName())) {
+        if (!data.getOwner().equals(p.getName())) {
             return;
         }
         if (!p.getLocation().getChunk().toString().equals(data.getChunk())) {
@@ -61,8 +61,7 @@ public class ClaimUtils {
         if (MoveTimer.getMoveTask().containsKey(p)) {
             int hour = 0;
             int minute = 0;
-            int second;
-            for (second = MoveTimer.getMoveTask().get(p); second > 3600; second -= 3600, ++hour) {}
+            int second = MoveTimer.getMoveTask().get(p);
             while (second > 60) {
                 second -= 60;
                 ++minute;

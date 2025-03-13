@@ -11,10 +11,12 @@ public class ClaimsFile
     public static FileConfiguration clfc;
     public static File clfile;
     
+    @SuppressWarnings("CallToPrintStackTrace")
     public static void loadClaimFiles() {
         ClaimsFile.clfile = new File(Claim.getInstance().getDataFolder(), "claims.yml");
         if (!ClaimsFile.clfile.exists()) {
             try {
+                //noinspection ResultOfMethodCallIgnored
                 ClaimsFile.clfile.createNewFile();
             }
             catch (IOException e) {
@@ -35,6 +37,7 @@ public class ClaimsFile
         return ClaimsFile.clfc;
     }
     
+    @SuppressWarnings("CallToPrintStackTrace")
     public static void saveClaimsFile() {
         try {
             ClaimsFile.clfc.save(ClaimsFile.clfile);

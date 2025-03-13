@@ -1,6 +1,6 @@
 package io.github.mertout.core;
 
-import de.tr7zw.changeme.nbtapi.NBTItem;
+import de.tr7zw.changeme.nbtapi.NBT;
 import io.github.mertout.Claim;
 import io.github.mertout.api.events.ClaimMemberAddEvent;
 import io.github.mertout.core.data.DataHandler;
@@ -26,7 +26,7 @@ public class MemberManager {
 
     public int getMemberSize(DataHandler claim) {
         int memberSize = 0;
-        if (claim.getMembers().size() > 0) {
+        if (!claim.getMembers().isEmpty()) {
             memberSize = claim.getMembers().size();
         }
         return memberSize;
@@ -103,18 +103,16 @@ public class MemberManager {
                 }
                 im.setLore(lore);
                 is.setItemMeta(im);
-                if (str.equals("NEXT-PAGE")) {
-                    NBTItem nbti = new NBTItem(is);
-                    nbti.setString("page", "next");
-                    is = nbti.getItem();
-                } else if (str.equals("PREVIOUS-PAGE")) {
-                    NBTItem nbti = new NBTItem(is);
-                    nbti.setString("page", "previous");
-                    is = nbti.getItem();
-                } else if (str.equals("CURRENT-PAGE")) {
-                    NBTItem nbti = new NBTItem(is);
-                    nbti.setString("currentpage", String.valueOf(page));
-                    is = nbti.getItem();
+                switch (str) {
+                    case "NEXT-PAGE" -> NBT.modify(is, nbt -> {
+                        nbt.setString("page", "next");
+                    });
+                    case "PREVIOUS-PAGE" -> NBT.modify(is, nbt -> {
+                       nbt.setString("page", "previous");
+                    });
+                    case "CURRENT-PAGE" -> NBT.modify(is, nbt -> {
+                        nbt.setString("currentpage", String.valueOf(page));
+                    });
                 }
                 for (int num : slots) {
                     inv.setItem(num, is);
@@ -133,9 +131,10 @@ public class MemberManager {
         for (int i = startIndex; i < members.size(); i++) {
             if (calculateInventoryCapacity(inv) > 0 && members.get(i) != null) {
                 String member = members.get(i);
-                ItemStack stack = new ItemStack(Material.LEGACY_SKULL_ITEM, 1, (short) 3);
+                ItemStack stack = new ItemStack(Material.PLAYER_HEAD, 1);
                 SkullMeta skullMeta = (SkullMeta) stack.getItemMeta();
 
+                //noinspection deprecation
                 skullMeta.setOwner(member);
                 stack.setItemMeta(skullMeta);
 
@@ -149,9 +148,9 @@ public class MemberManager {
                 meta.setLore(lore);
                 stack.setItemMeta(meta);
 
-                NBTItem nbti = new NBTItem(stack);
-                nbti.setString("owner", member);
-                stack = nbti.getItem();
+                NBT.modify(stack, nbt -> {
+                    nbt.setString("owner", member);
+                });
 
                 inv.addItem(stack);
             }
@@ -176,9 +175,12 @@ public class MemberManager {
         for (int i = 0; i < inv.getSize(); i++) {
             ItemStack item = inv.getItem(i);
             if (item != null && item.getType() != Material.AIR) {
-                NBTItem nbtItem = new NBTItem(item);
-                if (nbtItem.hasKey("currentpage")) {
-                    return Integer.parseInt(nbtItem.getString("currentpage"));
+                final String[] page = new String[1];
+                NBT.get(item, nbt -> {
+                    page[0] = nbt.getString("currentpage");
+                });
+                if(page[0] != null) {
+                    return Integer.parseInt(page[0]);
                 }
             }
         }

@@ -9,6 +9,7 @@ import io.github.mertout.utils.HexColor;
 import io.github.mertout.core.data.DataHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.jetbrains.annotations.NotNull;
 
 public class HologramCore {
 
@@ -21,20 +22,7 @@ public class HologramCore {
 
     public void createHologram(final Location loc, final DataHandler data) {
         Location loc2 = loc.clone().add(0.5, HologramFile.get().getDouble("settings.hologram-height"), 0.5);
-        String worldName = loc.getWorld().getName();
-        int chunkX = loc.getChunk().getX();
-        int chunkZ = loc.getChunk().getZ();
-
-        String var;
-        if (chunkX >= 0 && chunkZ >= 0) {
-            var = worldName + "_X" + chunkX + "_Z" + chunkZ;
-        } else if (chunkX < 0 && chunkZ >= 0) {
-            var = worldName + "_Xm" + Math.abs(chunkX) + "_Z" + chunkZ;
-        } else if (chunkX >= 0 && chunkZ < 0) {
-            var = worldName + "_X" + chunkX + "_Zm" + Math.abs(chunkZ);
-        } else {
-            var = worldName + "_Xm" + Math.abs(chunkX) + "_Zm" + Math.abs(chunkZ);
-        }
+        final String var = getString(loc);
 
         if (Bukkit.getPluginManager().getPlugin("DecentHolograms") != null) {
             Hologram hologram = DHAPI.getHologram(var);
@@ -51,6 +39,24 @@ public class HologramCore {
             }
             data.setHologram(hologram);
         }
+    }
+
+    private static @NotNull String getString(Location loc) {
+        String worldName = loc.getWorld().getName();
+        int chunkX = loc.getChunk().getX();
+        int chunkZ = loc.getChunk().getZ();
+
+        String var;
+        if (chunkX >= 0 && chunkZ >= 0) {
+            var = worldName + "_X" + chunkX + "_Z" + chunkZ;
+        } else if (chunkX < 0 && chunkZ >= 0) {
+            var = worldName + "_Xm" + Math.abs(chunkX) + "_Z" + chunkZ;
+        } else if (chunkX >= 0) {
+            var = worldName + "_X" + chunkX + "_Zm" + Math.abs(chunkZ);
+        } else {
+            var = worldName + "_Xm" + Math.abs(chunkX) + "_Zm" + Math.abs(chunkZ);
+        }
+        return var;
     }
 
     public void deleteHologram(final DataHandler data) {

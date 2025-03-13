@@ -4,7 +4,6 @@ import io.github.mertout.Claim;
 import io.github.mertout.filemanager.files.MessagesFile;
 import io.github.mertout.gui.GuiCreator;
 import io.github.mertout.gui.GuiType;
-import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -39,8 +38,8 @@ public class BlockClickEvent extends ClaimManager implements Listener
                     return;
                 }
                 String sound = Claim.getInstance().getConfig().getString("settings.sounds.OPEN-MANAGAMENT.type").toUpperCase();
-                Float volume = (float) Claim.getInstance().getConfig().getDouble("settings.sounds.OPEN-MANAGAMENT.volume");
-                Float pitch = (float) Claim.getInstance().getConfig().getDouble("settings.sounds.OPEN-MANAGAMENT.pitch");
+                float volume = (float) Claim.getInstance().getConfig().getDouble("settings.sounds.OPEN-MANAGAMENT.volume");
+                float pitch = (float) Claim.getInstance().getConfig().getDouble("settings.sounds.OPEN-MANAGAMENT.pitch");
                 p.playSound(p.getLocation(), Sound.valueOf(sound), volume, pitch);
             }
         }

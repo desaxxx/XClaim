@@ -10,7 +10,6 @@ import io.github.mertout.filemanager.files.MenusFile;
 import io.github.mertout.filemanager.files.MessagesFile;
 import io.github.mertout.holograms.file.HologramFile;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 public class ReloadCommand extends SubCommand {
 

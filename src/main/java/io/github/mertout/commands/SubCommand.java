@@ -15,6 +15,6 @@ public abstract class SubCommand {
 
     public abstract int getLength();
 
-    public abstract void perform(CommandSender cs, String args[]);
+    public abstract void perform(CommandSender cs, String[] args);
 
 }

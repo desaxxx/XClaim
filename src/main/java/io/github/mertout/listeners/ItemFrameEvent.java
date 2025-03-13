@@ -21,6 +21,6 @@ public class ItemFrameEvent extends ClaimManager implements Listener
     }
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onItemFrame3(final PlayerInteractEntityEvent e) {
-        if (super.getChunkClaim(e.getRightClicked().getLocation()) != null && super.hasClaimAtLocation(e.getRightClicked().getLocation(), (Player)e.getPlayer())) { e.setCancelled(true); }
+        if (super.getChunkClaim(e.getRightClicked().getLocation()) != null && super.hasClaimAtLocation(e.getRightClicked().getLocation(), e.getPlayer())) { e.setCancelled(true); }
     }
 }

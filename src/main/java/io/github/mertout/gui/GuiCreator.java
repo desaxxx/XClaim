@@ -26,7 +26,7 @@ public class GuiCreator {
         if (guiType == GuiType.CLAIMMANAGEMENT) {
             Inventory inv;
             String type = MenusFile.get(guiType).getString("gui.type");
-            inv = (type != "chest" ? Bukkit.createInventory(null, InventoryType.valueOf(MenusFile.get(guiType).getString("gui.type").toUpperCase()), HexColor.hex(MenusFile.get(guiType).getString("gui.title"))) : Bukkit.createInventory(null, (MenusFile.get(guiType).getInt("gui.size") * 9), HexColor.hex(MenusFile.get(guiType).getString("gui.title"))));
+            inv = (!type.equals("chest") ? Bukkit.createInventory(null, InventoryType.valueOf(MenusFile.get(guiType).getString("gui.type").toUpperCase()), HexColor.hex(MenusFile.get(guiType).getString("gui.title"))) : Bukkit.createInventory(null, (MenusFile.get(guiType).getInt("gui.size") * 9), HexColor.hex(MenusFile.get(guiType).getString("gui.title"))));
             for (final String str : sect.getKeys(false)) {
                 String mat = MenusFile.get(guiType).getString("gui.items." + str + ".material");
                 List<Integer> slots = new ArrayList<>();

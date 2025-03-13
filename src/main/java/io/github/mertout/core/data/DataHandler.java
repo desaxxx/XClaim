@@ -23,7 +23,7 @@ public class DataHandler
     private String creationdate;
 
     public DataHandler() {
-        this.members = new ArrayList<String>();
+        this.members = new ArrayList<>();
     }
 
     public String getChunk() {

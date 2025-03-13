@@ -13,15 +13,14 @@ import org.jetbrains.annotations.NotNull;
 
 public class MenuClick {
 
-    public MenuClick(@NotNull Player p, @NotNull int slot, @NotNull GuiType guiType) {
+    public MenuClick(@NotNull Player p, int slot, @NotNull GuiType guiType) {
         ConfigurationSection sect = MenusFile.get(guiType).getConfigurationSection("gui.items");
         if (sect == null || guiType != GuiType.CLAIMMANAGEMENT) {
             return;
         }
         for (final String str : sect.getKeys(false))
             if (MenusFile.get(guiType).getInt("gui.items." + str + ".slot") == slot && MenusFile.get(guiType).isSet("gui.items." + str + ".action")) {
-                final String action = MenusFile.get(guiType).getString("gui.items." + str + ".action");
-                final String sw = action;
+                final String sw = MenusFile.get(guiType).getString("gui.items." + str + ".action");
                 final DataHandler data = Claim.getInstance().getClaimManager().getChunkClaim(p.getLocation());
                 switch (sw) {
                     case "[Member-List]":
@@ -41,7 +40,7 @@ public class MenuClick {
                         ClaimUtils.moveClaimBlock(p, data);
                         break;
                     case "[Look-Chunks]":
-                        Claim.getInstance().getBorderCore().toggleBorder(p, data);
+                        Claim.getInstance().getBorderCore().toggleBorder(p);
                         break;
             }
         }
