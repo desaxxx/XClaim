@@ -33,7 +33,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 @SuppressWarnings("unused")
 public class Claim extends JavaPlugin
 {
-    public static Claim instance;
+    private static Claim instance;
     private final ArrayList<DataHandler> claims = new ArrayList<>();
     private final HashMap<Player, DataHandler> addList = new HashMap<>();
     private final ArrayList<Player> adminbypass = new ArrayList<>();
@@ -52,7 +52,10 @@ public class Claim extends JavaPlugin
 
     @Override
     public void onEnable() {
-        Claim.instance = this;
+        instance = this;
+
+        //Checking Depends Plugins
+        this.checkPlugins();
 
         // Loading Class
         this.loadClass();
@@ -62,9 +65,6 @@ public class Claim extends JavaPlugin
 
         //Loading Files
         this.loadFiles();
-
-        //Checking Depends Plugins
-        this.checkPlugins();
 
         //Load Claims
         this.getClaimManager().loadClaims();
@@ -103,6 +103,7 @@ public class Claim extends JavaPlugin
         this.backupCore = new BackupCore();
         this.backupTimer = new BackupTimer();
         this.v = new Vault();
+        this.v.setupEconomy();
         if (Claim.getInstance().getConfig().getInt("settings.data-backup-time") > -1) {
             this.backupTimer = new BackupTimer();
         }
@@ -118,12 +119,24 @@ public class Claim extends JavaPlugin
     }
     
     public void onDisable() {
-        this.getClaimManager().saveClaims();
+        if(this.getClaimManager() != null) {
+            this.getClaimManager().saveClaims();
+        }
+
+        instance = null;
     }
     
     private void checkPlugins() {
-        this.hc.setupHolograms();
-        this.v.setupEconomy();
+        if (Bukkit.getPluginManager().getPlugin("DecentHolograms") == null) {
+            getLogger().warning("Hologram plugin not found. Please install Decent Holograms");
+            Bukkit.getPluginManager().disablePlugin(this);
+            return;
+        }
+        if (Claim.getInstance().getServer().getPluginManager().getPlugin("Vault") == null) {
+            Claim.getInstance().getLogger().warning("Vault not found, Please install Vault!");
+            Bukkit.getPluginManager().disablePlugin(Claim.getInstance());
+            return;
+        }
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
             new Placeholders().register();
         }
@@ -176,7 +189,7 @@ public class Claim extends JavaPlugin
     }
     
     public static Claim getInstance() {
-        return Claim.instance;
+        return instance;
     }
 
     public ArrayList<DataHandler> getClaims() {

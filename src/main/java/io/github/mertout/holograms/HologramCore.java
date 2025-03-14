@@ -13,13 +13,6 @@ import org.jetbrains.annotations.NotNull;
 
 public class HologramCore {
 
-    public void setupHolograms() {
-        if (Bukkit.getPluginManager().getPlugin("DecentHolograms") == null) {
-            Claim.getInstance().getServer().getPluginManager().disablePlugin(Claim.getInstance());
-            System.out.println("Hologram plugin not found. Please install Decent Holograms");
-        }
-    }
-
     public void createHologram(final Location loc, final DataHandler data) {
         Location loc2 = loc.clone().add(0.5, HologramFile.get().getDouble("settings.hologram-height"), 0.5);
         final String var = getString(loc);

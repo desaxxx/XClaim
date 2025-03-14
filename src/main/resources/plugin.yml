@@ -1,5 +1,7 @@
 name: XClaim
-author: mert_out
+authors:
+  - mert_out
+  - desaxx
 version: 1.5.2-fork
 api-version: 1.16
 main: io.github.mertout.Claim
